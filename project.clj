@@ -15,7 +15,4 @@
   :junit ["src/test/java"]
   :junit-formatter "xml"
   :junit-results-dir "test-results"
-  :aliases {"test" "junit"}
-  :repositories [["yb" {:url "https://artifactory.yb0t.cc/artifactory/maven"
-                        :username :env/LEIN_USER
-                        :password :env}]])
+  :aliases {"test" "junit"})
