@@ -1,4 +1,4 @@
-(defproject com.adroll.cantor/cantor "1.0.0"
+(defproject com.adroll.cantor/cantor "1.0.1"
   :description "Fork of AdRoll's cantor"
   :url "https://github.com/AdRoll/cantor"
   :license {:name "MIT"}
