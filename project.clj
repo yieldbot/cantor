@@ -16,15 +16,6 @@
   :junit-formatter "xml"
   :junit-results-dir "test-results"
   :aliases {"test" "junit"}
-  :repositories [["snapshots"
-                  {:url "https://artifactory.yb0t.cc/artifactory/yieldbot-maven-snapshots"
-                   :username :env/LEIN_USER
-                   :password :env
-                   :sign-releases false}]
-                 ["releases"
-                  {:url "https://artifactory.yb0t.cc/artifactory/yieldbot-maven-releases"
-                   :creds :env
-                   :sign-releases false}]
-                 ["yb" {:url "https://artifactory.yb0t.cc/artifactory/maven"
+  :repositories [["yb" {:url "https://artifactory.yb0t.cc/artifactory/maven"
                         :username :env/LEIN_USER
                         :password :env}]])
