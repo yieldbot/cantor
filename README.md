@@ -1,3 +1,8 @@
+Yieldbot's fork of Adroll's Cantor
+======
+
+https://github.com/AdRoll/cantor
+
 Cantor
 ======
 
