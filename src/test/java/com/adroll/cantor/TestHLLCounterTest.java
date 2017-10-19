@@ -14,7 +14,7 @@ import org.junit.Test;
 
 import com.adroll.cantor.HLLCounter;
 
-public class TestHLLCounter {
+public class TestHLLCounterTest {
 
   @Test
   public void test_serialization() throws IOException, ClassNotFoundException {

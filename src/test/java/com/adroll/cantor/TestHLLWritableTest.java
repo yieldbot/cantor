@@ -14,7 +14,7 @@ import com.google.common.hash.Hashing;
 import com.adroll.cantor.HLLWritable;
 import com.adroll.cantor.HLLCounter;
 
-public class TestHLLWritable {
+public class TestHLLWritableTest {
 
   @Test
   public void test_serialization() throws Exception {
