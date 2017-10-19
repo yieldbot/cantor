@@ -4,10 +4,11 @@
   :license {:name "MIT"}
   :dependencies [[org.apache.hadoop/hadoop-common "2.7.3"]
                  [org.slf4j/slf4j-api "1.7.5"]]
-  :java-source-paths ["src/main/java" "src/test/java"]
+  :java-source-paths ["src/main/java"]
   :main ^:skip-aot floop.core
   :profiles {:uberjar {:aot :all}
              :dev {:plugins [[lein-pprint "1.1.2"]]
+                   :java-source-paths ["src/test/java"]
                    :dependencies [[junit/junit "4.11"]]}}
   :plugins [[lein-junit "1.1.8"]]
   ;; Just run junit.
