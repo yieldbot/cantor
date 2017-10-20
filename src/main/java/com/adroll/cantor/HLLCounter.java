@@ -1,9 +1,10 @@
 package com.adroll.cantor;
 
 import java.io.Serializable;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.TreeSet;
+
+import com.google.common.hash.HashFunction;
+import com.google.common.hash.Hashing;
 
 /** <code>HLLCounter</code> allows for cardinality estimation of 
     large sets with a compact data structure.
@@ -45,7 +46,7 @@ public class HLLCounter implements Serializable {
   /** precision of MinHash structure */
   private int k;
   /** for hashing elements during insertion */
-  transient private MessageDigest md;
+  private static HashFunction hash = Hashing.murmur3_128();
   
   /**
      Constructs a non-intersectable <code>HLLCounter</code> 
@@ -192,11 +193,6 @@ public class HLLCounter implements Serializable {
     if(intersectable && !(k > 0)) {
       throw new IllegalArgumentException("Intersectable HLLCounters must have a MinHash precision greater than 0.");
     }
-    try {
-      md = MessageDigest.getInstance("MD5");
-    } catch(NoSuchAlgorithmException e) {
-      throw new RuntimeException("Failed to instantiate hash algorithm.");
-    }    
     this.p = p;
     m = (int)Math.pow(2, p);
     a = getAlpha(m);
@@ -225,19 +221,7 @@ public class HLLCounter implements Serializable {
      @param v the <code>String</code> to insert
    */
   public void put(String v) {
-    if(md == null) {
-      try {
-        md = MessageDigest.getInstance("MD5");
-      } catch(NoSuchAlgorithmException e) {
-        throw new RuntimeException("Failed to instantiate hash algorithm.");
-      }
-    }
-    md.update(v.getBytes());
-    byte[] b = md.digest();
-    md.reset();
-    //We just want 64 bits
-    b = new byte[] { b[0], b[1], b[2], b[3], b[4], b[5], b[6], b[7] };
-    long x = makelong(b);
+    long x = hash.hashString(v, java.nio.charset.StandardCharsets.UTF_8).asLong();
     if(intersectable) {
       ts.add(x);
       if(ts.size() > k) {
