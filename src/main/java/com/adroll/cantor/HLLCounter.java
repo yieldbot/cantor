@@ -409,7 +409,7 @@ public class HLLCounter implements Serializable {
       return 0;
     }
     for (HLLCounter hll : hs) {
-      if (hll.size() == 0) {
+      if (hll.isIntersectable() && hll.getMinHash().size() == 0) {
         return 0;
       }
     }
@@ -566,20 +566,27 @@ public class HLLCounter implements Serializable {
                   cardinality
   */
   private static double estimateSize(byte[] Q, double alpha) {
-    double E = 0.0;
-    int count = 0;
     int q = Q.length;
     byte w = (byte)Math.round(Math.log(q)/LOG_2);
+    int count = 0;
     for(byte b : Q) {
       if(b == (byte)0) {
         count++;
       }
+    }
+    if (count != 0) {
+      double H = q * Math.log(q/((double)count));
+      if (H <= thresholds[w - MIN_P]) {
+        return H;
+      }
+    }
+    double E = 0.0;
+    for(byte b : Q) {
       E += Math.pow(2.0, -1 * b);
     }
     E = alpha * Math.pow(q, 2) * (1.0/E);
     E = (E < 5*q) ? (E - estimateBias(E, w)) : E;
-    double H = (count != 0) ? (q * Math.log(q/((double)count))) : E;
-    return H <= thresholds[w - MIN_P] ? H : E;
+    return E;
   }
   
   /**
